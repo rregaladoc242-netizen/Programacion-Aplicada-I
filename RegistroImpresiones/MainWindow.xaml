@@ -1,12 +1,87 @@
 ﻿<Window x:Class="RegistroImpresiones.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:RegistroImpresiones"
-        mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+        Title="RegistroImpresiones" Height="450" Width="750" WindowStartupLocation="CenterScreen">
+    <Grid Margin="15">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
 
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,10,0,10">
+            <Label Content="Cliente:" Width="70" FontWeight="Bold" VerticalAlignment="Center"/>
+            <TextBox x:Name="txtCliente" Width="250" Height="25" Margin="0,0,20,0" VerticalContentAlignment="Center"/>
+            <Label Content="Nro. Cel.:" Width="70" FontWeight="Bold" VerticalAlignment="Center"/>
+            <TextBox x:Name="txtCelular" Width="150" Height="25" VerticalContentAlignment="Center"/>
+        </StackPanel>
+
+        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,0,0,10">
+            <Label Content="Cantidad:" Width="70" FontWeight="Bold" VerticalAlignment="Center"/>
+            <TextBox x:Name="txtCantidad" Width="100" Height="25" Margin="0,0,10,0" VerticalContentAlignment="Center"/>
+            <Label Content="páginas" FontWeight="Bold" VerticalAlignment="Center"/>
+        </StackPanel>
+
+        <Grid Grid.Row="2" Margin="0,0,0,20">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="70"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <Label Grid.Column="0" Content="Tarifa:" FontWeight="Bold" VerticalAlignment="Center"/>
+            <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                <RadioButton x:Name="rbEscolar" Content="Escolar" Margin="0,0,20,0" IsChecked="True"/>
+                <RadioButton x:Name="rbUniversitario" Content="Universitario" Margin="0,0,20,0"/>
+                <RadioButton x:Name="rbOrganizacion" Content="Organización"/>
+            </StackPanel>
+            <Button x:Name="btnEstadistica" Grid.Column="2" Content="Estadística" Width="100" Height="25" Click="btnEstadistica_Click"/>
+        </Grid>
+
+        <UniformGrid Grid.Row="3" Columns="5" Margin="0,0,0,20">
+            <StackPanel Margin="5">
+                <Label Content="Cliente:" FontWeight="Bold"/>
+                <ListBox x:Name="lstClientes" Height="150"/>
+            </StackPanel>
+            <StackPanel Margin="5">
+                <Label Content="Nro. Cel.:" FontWeight="Bold"/>
+                <ListBox x:Name="lstCelulares" Height="150"/>
+            </StackPanel>
+            <StackPanel Margin="5">
+                <Label Content="Cantidad:" FontWeight="Bold"/>
+                <ListBox x:Name="lstCantidades" Height="150"/>
+            </StackPanel>
+            <StackPanel Margin="5">
+                <Label Content="Tarifa:" FontWeight="Bold"/>
+                <ListBox x:Name="lstTarifas" Height="150"/>
+            </StackPanel>
+            <StackPanel Margin="5">
+                <Label Content="Importe:" FontWeight="Bold"/>
+                <ListBox x:Name="lstImportes" Height="150"/>
+            </StackPanel>
+        </UniformGrid>
+
+        <Grid Grid.Row="4">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <Label Grid.Row="0" Grid.Column="0" Content="Nro. Impre. Escolares:" FontWeight="Bold" VerticalAlignment="Center"/>
+            <TextBox x:Name="txtEstEscolar" Grid.Row="0" Grid.Column="1" Width="80" Height="22" Margin="5" IsReadOnly="True" VerticalContentAlignment="Center"/>
+
+            <Label Grid.Row="0" Grid.Column="2" Content="Nro. Impre. Organizacionales:" FontWeight="Bold" Margin="30,0,0,0" VerticalAlignment="Center"/>
+            <TextBox x:Name="txtEstOrganizacion" Grid.Row="0" Grid.Column="3" Width="80" Height="22" Margin="5" IsReadOnly="True" VerticalContentAlignment="Center"/>
+
+            <Label Grid.Row="1" Grid.Column="0" Content="Nro. Impre. Universitarias:" FontWeight="Bold" VerticalAlignment="Center"/>
+            <TextBox x:Name="txtEstUniversitario" Grid.Row="1" Grid.Column="1" Width="80" Height="22" Margin="5" IsReadOnly="True" VerticalContentAlignment="Center"/>
+        </Grid>
     </Grid>
 </Window>

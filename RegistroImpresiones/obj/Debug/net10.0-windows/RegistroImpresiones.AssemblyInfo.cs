@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("RegistroImpresiones")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e91340a34812f57d75383ea01cbd1440dd82ad16")]
 [assembly: System.Reflection.AssemblyProductAttribute("RegistroImpresiones")]
 [assembly: System.Reflection.AssemblyTitleAttribute("RegistroImpresiones")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
