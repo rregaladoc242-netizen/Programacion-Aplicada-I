@@ -5,26 +5,37 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:EjemploMVVM"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid Margin="30">
+        Title="MainWindow" Height="450" Width="850">
+    <Grid Margin="20">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="347*"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-            <TextBlock Text="Buscar:" Margin="0,0,10,0" VerticalAlignment="Center"/>
-            <TextBox Width="250" Margin="0,0,10,0" Text="{Binding textoBuscar}"/>
-            <Button Content="Buscar Productos" Padding="5" Command="{Binding ComandoCargarProductos, UpdateSourceTrigger=PropertyChanged}" />
+
+        <!-- Controles superiores: Categoría, Búsqueda y Botón centrados -->
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,15">
+            <TextBlock Text="Categoría:" Margin="0,0,5,0" VerticalAlignment="Center"/>
+            <ComboBox Width="150" Margin="0,0,15,0" 
+                      ItemsSource="{Binding Categorias}" 
+                      DisplayMemberPath="NombreCategoria" 
+                      SelectedValuePath="IdCategoria"
+                      SelectedValue="{Binding CategoriaSeleccionada}"/>
+
+            <TextBlock Text="Buscar:" Margin="0,0,5,0" VerticalAlignment="Center"/>
+            <TextBox Width="180" Margin="0,0,10,0" VerticalContentAlignment="Center" Text="{Binding textoBuscar, UpdateSourceTrigger=PropertyChanged}"/>
+
+            <Button Content="Buscar Productos" Padding="8,4" 
+                    Command="{Binding ComandoCargarProductos}"/>
         </StackPanel>
-        
-        <DataGrid Grid.Row="1" IsReadOnly="True" ItemsSource="{Binding productos}" AutoGenerateColumns="False">
+
+        <!-- Tabla de Productos -->
+        <DataGrid Grid.Row="1" IsReadOnly="True" ItemsSource="{Binding productos}" AutoGenerateColumns="False" CanUserAddRows="False">
             <DataGrid.Columns>
-                <DataGridTextColumn Binding="{Binding Id}" Header="ID" Width="80"/>
-                <DataGridTextColumn Binding="{Binding nombre}" Header="Nombre Producto" Width="300"/>
+                <DataGridTextColumn Binding="{Binding Id}" Header="ID" Width="70"/>
+                <DataGridTextColumn Binding="{Binding nombre}" Header="Nombre Producto" Width="320"/>
                 <DataGridTextColumn Binding="{Binding precio}" Header="Precio" Width="100"/>
                 <DataGridTextColumn Binding="{Binding discontinuado}" Header="Discontinuado" Width="100"/>
             </DataGrid.Columns>
         </DataGrid>
-
     </Grid>
 </Window>
