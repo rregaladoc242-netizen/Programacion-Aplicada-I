@@ -2,7 +2,6 @@
 using Microsoft.Data.SqlClient;
 using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Data;
 
 namespace EjemploMVVM.Repositories
@@ -17,12 +16,14 @@ namespace EjemploMVVM.Repositories
     public class ProductoRepositoryImpl : IProductoRepository
     {
         string cn;
+
         public ProductoRepositoryImpl()
         {
-            cn = ConfigurationManager.ConnectionStrings["EjemploMVVM.Properties.Settings.NorthwindDB"].ConnectionString;
+            // Cadena de conexión directa para evitar fallos de configuración al clonar/copiar proyectos
+            cn = "Server=.;Database=Northwind;Integrated Security=True;TrustServerCertificate=True;Encrypt=True";
         }
 
-        // Método nuevo para listar las categorías de Northwind
+        // Método para listar las categorías de Northwind
         public List<Categoria> ListarCategorias()
         {
             string query = "SELECT CategoryID, CategoryName FROM Categories";
@@ -45,7 +46,7 @@ namespace EjemploMVVM.Repositories
             return listaCategorias;
         }
 
-        // Búsqueda mejorada que acepta opcionalmente el ID de categoría y el texto
+        // Búsqueda que filtra por categoría y texto a la vez
         public List<Producto> BuscarPorFiltros(int? idCategoria, string nombre)
         {
             string query = "SELECT ProductID, ProductName, UnitPrice, Discontinued FROM Products WHERE (@IdCategoria IS NULL OR CategoryID = @IdCategoria) AND (@Nombre IS NULL OR ProductName LIKE @Nombre)";
