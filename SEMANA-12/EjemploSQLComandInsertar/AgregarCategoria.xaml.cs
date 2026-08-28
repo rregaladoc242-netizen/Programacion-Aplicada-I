@@ -1,48 +1,64 @@
-﻿using Microsoft.Data.SqlClient;
-using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Text;
+﻿using System;
+using System.Data;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+using Microsoft.Data.SqlClient;
 
 namespace EjemploSQLCommandInsertar
 {
-    /// <summary>
-    /// Lógica de interacción para AgregarCategoria.xaml
-    /// </summary>
     public partial class AgregarCategoria : Window
     {
+        // Cambia esta cadena de conexión según la que ya te esté funcionando en tu proyecto
+        private string connectionString = "Server=localhost;Database=Northwind;Trusted_Connection=True;TrustServerCertificate=True;";
+
         public AgregarCategoria()
         {
             InitializeComponent();
         }
 
-        private void btnRegistrar_Click(object sender, RoutedEventArgs e)
+        private void BtnGuardar_Click(object sender, RoutedEventArgs e)
         {
-            string cn = ConfigurationManager.ConnectionStrings["EjemploSQLCommandInsertar.Properties.Settings.Northwind"].ConnectionString;
+            string nombreProducto = txtNombreProducto.Text.Trim();
+            string categoria = txtCategoria.Text.Trim();
+
+            if (string.IsNullOrEmpty(nombreProducto) || string.IsNullOrEmpty(txtPrecio.Text) || string.IsNullOrEmpty(categoria))
+            {
+                MessageBox.Show("Por favor, completa todos los campos.", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            if (!decimal.TryParse(txtPrecio.Text, out decimal precio))
+            {
+                MessageBox.Show("El precio debe ser un valor numérico válido.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
             try
             {
-                using(SqlConnection conex = new SqlConnection(cn))
+                using (SqlConnection conexion = new SqlConnection(connectionString))
                 {
-                    SqlCommand cmd = conex.CreateCommand();
-                    cmd.CommandText = "INSERT INTO categories(CategoryName, Description) values(@Nombre,@Descripcion); select SCOPE_IDENTITY();";
-                    cmd.Parameters.Add("@Nombre", System.Data.SqlDbType.NVarChar, 15).Value = txtNombre.Text;
-                    cmd.Parameters.Add("@Descripcion", System.Data.SqlDbType.NVarChar, 200).Value = txtDescripcion.Text;
-                    conex.Open();
-                    int idGenerado = Convert.ToInt32(cmd.ExecuteScalar());
+                    using (SqlCommand comando = new SqlCommand("dbo.SP_AgregarProductoConCategoria", conexion))
+                    {
+                        comando.CommandType = CommandType.StoredProcedure;
+                        comando.Parameters.AddWithValue("@ProductName", nombreProducto);
+                        comando.Parameters.AddWithValue("@UnitPrice", precio);
+                        comando.Parameters.AddWithValue("@CategoryName", categoria);
 
-                    MessageBox.Show($"Categia agregada con id {idGenerado}");
+                        using (SqlDataAdapter adaptador = new SqlDataAdapter(comando))
+                        {
+                            DataTable dt = new DataTable();
+                            adaptador.Fill(dt);
+
+                            // Mostrar el resultado en el DataGrid
+                            dgResultado.ItemsSource = dt.DefaultView;
+                        }
+                    }
                 }
-            }catch (Exception ex)
+
+                MessageBox.Show("¡Producto y categoría procesados con éxito!", "Información", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            catch (Exception ex)
             {
-                MessageBox.Show($"Error al agregar categoria {ex.Message}");
+                MessageBox.Show("Error al guardar: " + ex.Message, "Error Crítico", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
     }
